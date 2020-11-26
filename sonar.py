@@ -2,9 +2,18 @@ import RPi.GPIO as GPIO
 import time
 
 class Sonar():
-    """initializing sonar and reading data from it"""
-
+    """Class representing a sonar"""
+    
     def __init__(self, gpio_trigger, gpio_echo, range_min=10, range_max=400):
+        """Initializing sonar and reading data from it
+        
+        Parameters
+        ----------
+        
+        Returns
+        -------
+        
+        """
     
         GPIO.setmode(GPIO.BCM)
         
@@ -14,10 +23,10 @@ class Sonar():
         self._range_max     = range_max
         self._is_reading    = False
         
-        self._speed_sound   = 17150.0 #- divided by 2 in cm/s
+        self._speed_sound   = 17150.0  # divided by 2 in cm/s
         
         self._last_time_reading = 0
-        self._timeout       = range_max/self._speed_sound*2
+        self._timeout = range_max/self._speed_sound * 2
 
         GPIO.setup(gpio_trigger, GPIO.OUT)
         GPIO.setup(gpio_echo, GPIO.IN)
@@ -28,20 +37,17 @@ class Sonar():
         
 
     def get_range(self):
-
         """
-        produces a signal and processes it to centimeters
-
-        Parameters
-        -----------
+        Produces a signal and processes it to centimeters
 
         Returns
         -------
-        distance in cm
+        Distance in cm
+        
         """
 
         self._is_reading = True
-        #--- Call for a reading
+        # Call for a reading
         GPIO.output(self._gpio_trigger, GPIO.HIGH)
         time.sleep(0.00001)
         GPIO.output(self._gpio_trigger, GPIO.LOW)
@@ -80,7 +86,7 @@ class Sonar():
             distance = self._range_min
             # distance = -1
             
-        return(distance)
+        return distance
 
     @property
     def is_reading(self):
