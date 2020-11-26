@@ -55,15 +55,15 @@ class Sonar():
         GPIO.output(self._gpio_trigger, GPIO.HIGH)
         time.sleep(0.00001)
         GPIO.output(self._gpio_trigger, GPIO.LOW)
-
         
         pulse_start_time = time.time()
         pulse_end_time = time.time()
+        
         #--- Wait for the answer
         while GPIO.input(self._gpio_echo)==0:
             pulse_start_time = time.time()
             
-        time0= time.time()
+        time0 = time.time()
         while GPIO.input(self._gpio_echo)==1:
             pulse_end_time = time.time()
             # if time.time() - time0 > self._timeout:
@@ -92,7 +92,8 @@ class Sonar():
     def is_reading(self):
         return(self._is_reading)
         
-if __name__ == "__main__":
+
+def main():
     #-- FRONT
     PIN_TRIGGER = 5
     PIN_ECHO = 6
@@ -110,3 +111,7 @@ if __name__ == "__main__":
     while True:
         d = sonar.get_range()
         if d>0: print("Distance = %4.1f cm"%d)
+        
+        
+if __name__ == "__main__":
+    main()
